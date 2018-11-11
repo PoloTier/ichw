@@ -4,9 +4,7 @@ a program designed to simulate the solar system
 __author__="陆浩成"
 __pkuid__="1800011742"
 __email__="wl2009_happy@126.com"
-
-
-
+"""
 
 import turtle
 
