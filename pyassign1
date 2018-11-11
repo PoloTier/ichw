@@ -1,0 +1,78 @@
+"""
+a program designed to simulate the solar system
+
+__author__="陆浩成"
+__pkuid__="1800011742"
+__email__="wl2009_happy@126.com"
+
+
+
+
+import turtle
+
+import math
+turtle.screensize(1000,1000)
+Sun=turtle.Turtle()
+Me=turtle.Turtle() #水星 Mercury
+V=turtle.Turtle() #金星 Venus
+E=turtle.Turtle() #地球 Earth
+Ma=turtle.Turtle() #火星 Mars
+J=turtle.Turtle() #木星 Jupiter
+S=turtle.Turtle() #土星 Saturn
+
+Sun.color('red')
+Me.color('light blue')
+V.color('gold')
+E.color('blue')
+Ma.color('red')
+J.color('orange')
+S.color('brown') #设置颜色
+
+Sun.shape('circle')
+Me.shape('circle')
+V.shape('circle')
+E.shape('circle')
+Ma.shape('circle')
+J.shape('circle')
+S.shape('circle') #设置形状
+
+Sun.pu()
+Me.pu()
+V.pu()
+E.pu()
+Ma.pu()
+J.pu()
+S.pu()
+
+Sun.setx(8)
+Me.setx(38.7)
+V.setx(72.3-10)
+E.setx(120-20)
+Ma.setx(150-40)
+J.setx(260-80)
+S.setx(479-200)
+
+Me.pd()
+V.pd()
+E.pd()
+Ma.pd()
+J.pd()
+S.pd()
+
+Me.speed(10)
+V.speed(7)
+E.speed(6)
+Me.speed(5)
+J.speed(3)
+S.speed(2)
+
+for x in range(0,3600):
+    x=(x*3.14159)/(180)
+    Me.goto(38.7*math.cos(x),30*math.sin(x))
+    V.goto(72.3*math.cos(x)-10,70*math.sin(x))
+    E.goto(120*math.cos(x)-20,90*math.sin(x))
+    Ma.goto(150*math.cos(x)-40,120*math.sin(x))
+    J.goto(260*math.cos(x)-80,160*math.sin(x))
+    S.goto(479*math.cos(x)-200,220*math.sin(x))
+
+turtle.mainloop()
