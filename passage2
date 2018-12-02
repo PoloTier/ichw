@@ -1,0 +1,37 @@
+# ichw
+
+import json
+
+
+def exchange(currency_from, currency_to, amount_from):
+    """
+    该函数通过汇率来转换一个给定的币种的金额到另一个给定币种的金额
+    "Returns: amount of currency received in the given exchange.
+    """
+    from urllib.request import urlopen
+
+    web='http://cs1110.cs.cornell.edu/2016fa/a1server.php?'+'from='+currency_from+'&'+'to='+currency_to+'&'+'amt='+amount_from
+    doc = urlopen(web)
+    docstr = doc.read()
+    doc.close()
+    jstr = docstr.decode('ascii')
+    
+    jstr1=json.loads(jstr)
+    r_value = str(jstr1["to"])
+    r_value=r_value.split()
+    amount=r_value[0]
+    return amount
+    
+"""
+以下检验函数是否成功
+"""
+currency_from=input('please input your currency from')
+currency_to=input('please input your currency to')
+amount_from=str(input('please input your money amount'))
+ 
+print(exchange(currency_from, currency_to, amount_from))
+
+
+
+if __name__ == '__main__':
+    main()
