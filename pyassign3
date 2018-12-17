@@ -1,0 +1,184 @@
+#!/usr/bin/env python3
+
+"""tile.py: detect total types of piling brick
+
+__author__ = "Luhaocheng"
+__pkuid__  = "1800011742"
+__email__  = "wl2009_happy@126.com"
+"""
+
+'''
+第一部分：
+此处进行turtle的绘图程序
+'''
+import turtle
+
+def draw_frame(m,n,alex):
+    '''
+    进行坐标框架的绘制，蓝色格子
+    '''
+    alex.color("blue")
+    alex.pensize(0.5)
+    for i in range(m):
+        for j in range(n):
+            alex.penup()
+            alex.goto(i*40+20,j*40+15)
+            alex.write(str(j*(m)+i),align="center",font=("Arial",8,"normal"))
+            alex.goto(i*40,j*40)
+            alex.pendown()
+            for k in range(4):
+                alex.forward(40)
+                alex.left(90)
+    
+
+def position(brick,a,b):
+    '''
+    判断一块砖是横放还是竖放
+    '''
+    u=brick[0][0]
+    p=0
+    for i in brick:
+        if u==i[0]:
+            p=p+1
+    if p==b:
+        return 0
+    elif p==a:
+        return 1
+    else:
+        return None
+            
+
+def draw_square(stem,alex,a,b):
+    '''
+    画一块砖的程序
+    以每块砖最左下角的点为基点stem
+    '''
+    alex.pensize(5)
+    alex.color("black")
+    x=stem[0]
+    y=stem[1]
+    x=x*40
+    y=y*40
+    alex.penup()
+    alex.goto(x,y)
+    alex.pendown()
+    alex.seth(0)
+    for k in range(2): 
+        for i in range(a):
+            alex.forward(40)
+        alex.left(90)
+        for i in range(b):
+            alex.forward(40)
+        alex.left(90)
+    alex.penup()
+        
+def pile_visualize(group,a,b,alex):
+    '''
+    最终可视化程序
+    '''
+    for i in group:
+        if position(i,a,b)==0:
+            stem=i[0]
+            draw_square(stem,alex,a,b)
+        elif position(i,a,b)==1:
+            stem=i[0]
+            m=a
+            n=b
+            draw_square(stem,alex,n,m)
+        else:
+            return None
+    turtle.done()
+    
+
+
+
+
+'''
+第二部分：
+此处进行砖块的排列
+'''
+
+def conflict(brick_code,code) :
+    """
+    鉴别所铺砖块是否重叠或者超出边界，brick_code为砖块坐标集合
+    code为可用的总坐标集合，类型均为list
+    
+    """
+    for i in brick_code:
+        if i not in code:
+            return True
+    return False
+        
+def pile(a,b,code,ans,t):
+    """
+    铺砖程序，a为砖长，b为砖宽，code为可用的总铺砖面积坐标集合（均为正整数），ans为
+    最终铺砖结果，t为铺砖结果集合，进行最终计数
+    
+    一开始code为铺砖前的总坐标集合，之后每铺一块砖均从code中减去相应的砖块的坐标
+    这样code中元素会越来越少，当code为空集时即输出ans
+    
+    a:int b:int code:list ans:list t:list
+    """
+    if code==[]:
+        print(ans)
+        t.append(ans)
+    else:
+        code=sorted(code)#每次都进行大小排序
+        k=code[0]#取每次剩余code中的第一个值
+        kset=[]
+        for i in range(a):
+            for j in range(b):
+                kset.append((k[0]+i,k[1]+j))
+        if not conflict(kset,code):
+            for k_zi in kset:
+                code.remove(k_zi)
+            pile(a,b,code,ans+[kset],t)
+            for k_zi in kset:
+                code.append(k_zi)#保证不管if 还是if not 之后的code内容都不变
+        kset=[]
+        code=sorted(code)#每次都要由大到小排序
+        k=code[0]
+        for i in range(a):
+            for j in range(b):
+                kset.append((k[0]+j,k[1]+i))
+        if not conflict(kset,code):
+            for k_zi in kset:
+                code.remove(k_zi)
+            pile(a,b,code,ans+[kset],t)
+
+def main():
+    m=int(input("请输入墙的长度："))
+    n=int(input("请输入墙的宽度："))
+    code=[]#坐标集合
+    for i in range(m):
+        for j in range(n):
+            code.append((i,j))
+            
+    a=int(input("请输入砖块长度："))
+    b=int(input("请输入砖块宽度："))
+    ans=[]
+    t=[]
+    
+    if a==b and a*b<m*n:
+        t.append(code)
+    else:
+        pile(a,b,code,ans,t)
+        
+        
+    if t==[]:
+        print("回去重铺")
+    else:
+        print('总共有'+str(len(t))+'种铺法')
+        print("可输入的排列编号范围：0~"+str(len(t)-1))
+        num_order=int(input("输入排列编号:"))
+        alex=turtle.Turtle()
+        alex.speed(0)
+        alex.shape("blank")
+        turtle.screensize(2000,1800)
+        draw_frame(m,n,alex)
+        group=t[num_order]
+        pile_visualize(group,a,b,alex)
+
+
+if __name__ == '__main__':
+    main()
