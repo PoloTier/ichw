@@ -12,10 +12,12 @@ import sys
 from urllib.request import urlopen
 
 def wcount(text,u1):
+
     """
      count words from lines of text string, then sort by their counts
     in reverse order, output the topn (word count), each in one line. 
     """
+    
     text_0=text.split()
     text_1=[]
     loop1=1
@@ -39,12 +41,12 @@ def wcount(text,u1):
             loop1+=1
 
 def main():
+
     web=u0
     doc = urlopen(web)
     docstr = doc.read()
     doc.close()
     jstr = docstr.decode('utf-8')
-
     wcount(jstr,u1)
 
     
