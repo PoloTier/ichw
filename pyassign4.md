@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
+
 """
 wcount.py:count words from an Internet file.
 
 __author__ = "Haocheng Lu"
+
 __pkuid__  = "18000117425"
+
 __email__  = "1800011742@pku.edu.cn"
 
 """
+
 import string
 import sys
 from urllib.request import urlopen
