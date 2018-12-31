@@ -12,7 +12,9 @@ __email__  = "1800011742@pku.edu.cn"
 """
 
 import string
+
 import sys
+
 from urllib.request import urlopen
 
 def wcount(text,u1):
